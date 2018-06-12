@@ -1,0 +1,148 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+
+<!-- You might want to try something fancier: -->
+<!-- html/nunjucks docs: https://mozilla.github.io/nunjucks/ -->
+<!-- pug: https://pugjs.org/ -->
+<!-- haml: http://haml.info/ -->
+<!-- hbs(handlebars): http://handlebarsjs.com/ -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Congress on Guns</title>
+    <meta name="description" content="A cool thing made with Glitch">
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Sunflower:300,500|Playfair+Display" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23247707-4"></script>
+    <script>
+      if (document.location.hostname == "congress-tracker.glitch.com") {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-23247707-4');
+      }
+    </script>
+
+  </head>
+  <body>
+    <header>
+      <h1>
+        Congress <br/>on guns
+      </h1>
+      <h2>The latest statements and bills by members of Congress on gun violence</h2>
+    </header>
+
+    <main>
+      <ul class="tabs">
+        <li class="tab-label"><a class="active" href="#statements">Statements</a></li>
+        <li class="tab-label"><a href="#bills">Bills</a></li>
+      </ul>
+      <section id="statements" class="container tab-content active">
+      </section>
+      <section id="bills" class="container tab-content">
+      </section>
+    </main>
+
+    <footer class="container">
+      <p>
+        <span>
+          Tap or click a rep's name for contact info
+        </span>
+      </p>
+      <a href="https://glitch.com">
+        Remix this in Glitch
+      </a>
+      <span class="separator">/</span>
+      <a href="https://projects.propublica.org/api-docs/congress-api/">
+        Data courtesy of ProPublica
+      </a>
+      <span class="separator">/</span>
+      <a href="http://jasonlcrane.com">
+        Made by Jason Crane
+      </a>
+    </footer>
+    
+    <div id="rep-modal" aria-hidden="true" class="modal micromodal-slide">
+      
+    </div>
+    
+    <script id="statements-tpl" type="x-tmpl-mustache">
+      {{#statements}}
+      <div class="statement">
+        <p class="item-label">
+          <span class="statement__author"><a data-micromodal-trigger="rep-modal" data-memberid="{{ member_id }}" href="#" class="author-info">{{ author }}</a></span>
+          <span class="statement__chamber">{{ chamber }}</span>
+          <span class="separator">/</span>
+          <span class="statement__party">{{ party }}</span>
+          <span class="separator">/</span>
+          <span class="statement__state stateface stateface-{{stateclass}}">{{ state }}</span>          
+        </p>
+        <h3 class="statement__title"><a href="{{ url }}">{{ title }}</a></h3>
+        <p class="meta-secondary">
+          <span class="statement__date">Issued {{ date }}</span>
+        </p>
+      </div>
+      {{/statements}}
+    </script>
+    
+    <script id="bills-tpl" type="x-tmpl-mustache">
+      {{#bills}}
+      <div class="statement">
+        <p class="item-label">
+          <span class="statement__author"><a data-micromodal-trigger="rep-modal" data-memberid="{{ sponsor_id }}" href="#" class="author-info">{{ sponsor }}</a></span>
+          <span class="statement__party">{{ party }}</span>
+          <span class="separator">/</span>
+          <span class="bill__sponsor__state stateface stateface-{{stateclass}}">{{ state }}</span>
+        </p>
+        <h3 class="statement__title"><a href="{{ url }}">{{ title }}</a></h3>
+        <div class="statement__meta">
+          
+            <p class="meta-secondary">
+              <span class="bill__intro-date"><strong>Introduced</strong> {{ introduced_date }}</span>
+            </p>
+            <p class="meta-secondary">
+              <span class="bill__last-major-action"><strong>Last major action on {{ latest_major_action_date }}:</strong> {{ latest_major_action }}</span>
+            </p>
+          </div>
+      </div>
+      {{/bills}}
+    </script>
+    
+    <script id="rep-modal-tpl" type="x-tmpl-mustache">
+        <div tabindex="-1" data-micromodal-close class="modal__overlay">
+          <div role="dialog" aria-modal="true" aria-labelledby="modal-1-title" class="modal__container">
+            <header class="modal__header">
+              <h3 class="modal__title">
+                {{ name }}
+              </h3>
+
+              <button aria-label="Close modal" data-micromodal-close class="modal__close"></button>
+            </header>
+
+            <div class="author__meta modal__content">
+              <p class="author__twitter"><a href="https://twitter.com/{{ twitter }}">@{{ twitter }} on Twitter</a></p>
+              <p class="author__facebook"><a href="https://www.facebook.com/{{facebook}}">{{ facebook }} on Facebook</a></p>
+              <p class="author__phone"><a href="tel:+1{{ phone }}">Call {{ phone }}</a></p>
+              <p class="author__site"><a href="{{ url }}">Visit website</a></p>
+            </div>
+          </div>
+        </div>          
+    </script>
+
+    <!-- Your web-app is https, so your scripts need to be too -->
+    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
+            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
+            crossorigin="anonymous"></script>
+    <script src="/mustache.min.js"></script>
+    <script src="https://unpkg.com/micromodal/dist/micromodal.min.js"></script>
+    <script src="/client.js"></script>    
+
+  </body>
+</html>
